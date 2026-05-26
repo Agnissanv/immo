@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos — IMMO Agence Immobilière</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* MISSION */
+    .mission-section { padding: 120px 0; }
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .mission-left .display-title { font-size: clamp(40px, 5vw, 64px); margin-bottom: 32px; }
+    .mission-left p { font-size: 15px; color: var(--text-muted); line-height: 1.9; margin-bottom: 16px; }
+    .mission-right {
+      position: relative;
+    }
+    .mission-img-main {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .mission-img-sm {
+      position: absolute;
+      bottom: -32px;
+      left: -32px;
+      width: 220px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 4px solid var(--bg);
+    }
+    .mission-badge {
+      position: absolute;
+      top: 28px;
+      right: -28px;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 28px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .mission-badge .bval {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1;
+      display: block;
+    }
+    .mission-badge .blbl {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      display: block;
+    }
+
+    /* VALUES */
+    .values-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      padding: 100px 0;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 60px;
+    }
+    .value-item {
+      padding: 40px;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s, background 0.4s;
+    }
+    .value-item::before {
+      content: attr(data-num);
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-family: var(--font-display);
+      font-size: 100px;
+      font-weight: 700;
+      color: rgba(201,169,110,0.06);
+      line-height: 1;
+      pointer-events: none;
+      transition: color 0.4s;
+    }
+    .value-item:hover { border-color: var(--border); background: rgba(201,169,110,0.03); }
+    .value-item:hover::before { color: rgba(201,169,110,0.1); }
+    .value-item h3 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .value-item p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      position: relative;
+    }
+    .value-number {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    /* TIMELINE */
+    .timeline-section { padding: 120px 0; }
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 60px auto 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border-light);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: flex;
+      gap: 60px;
+      margin-bottom: 60px;
+      align-items: flex-start;
+    }
+    .timeline-item:nth-child(odd) { flex-direction: row-reverse; }
+    .timeline-item:nth-child(odd) .tl-content { text-align: right; }
+    .tl-year {
+      flex: 0 0 calc(50% - 30px);
+      font-family: var(--font-display);
+      font-size: 80px;
+      font-weight: 700;
+      color: rgba(201,169,110,0.08);
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-top: -12px;
+    }
+    .tl-dot {
+      flex: 0 0 60px;
+      display: flex;
+      justify-content: center;
+      padding-top: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .tl-dot span {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: block;
+      box-shadow: 0 0 0 4px rgba(201,169,110,0.15);
+    }
+    .tl-content { flex: 0 0 calc(50% - 30px); padding-top: 0; }
+    .tl-content h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .tl-content p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+    /* TEAM */
+    .team-section { padding: 0 0 120px; }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .team-card {
+      text-align: center;
+      overflow: hidden;
+    }
+    .team-card-img-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .team-card-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-out);
+    }
+    .team-card:hover .team-card-img { transform: scale(1.06); }
+    .team-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(7,7,15,0.8) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .team-card:hover .team-card-overlay { opacity: 1; }
+    .team-card-social {
+      position: absolute;
+      bottom: 20px;
+      left: 0; right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.4s;
+    }
+    .team-card:hover .team-card-social { opacity: 1; transform: translateY(0); }
+    .team-card-social a {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      color: #fff;
+      transition: border-color 0.3s;
+    }
+    .team-card-social a:hover { border-color: var(--gold); color: var(--gold); }
+    .team-card h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+    .team-card .role {
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* AWARDS */
+    .awards-bar {
+      background: var(--bg2);
+      border-top: 1px solid var(--border-light);
+      padding: 60px 0;
+    }
+    .awards-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .award-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+    }
+    .award-icon {
+      width: 48px; height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .award-text .aw-title { font-size: 15px; font-weight: 500; margin-bottom: 2px; }
+    .award-text .aw-sub { font-size: 12px; color: var(--text-muted); }
+    .award-divider { width: 1px; height: 60px; background: var(--border-light); }
+
+    @media (max-width: 1024px) {
+      .mission-badge { right: 0; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .awards-inner { flex-wrap: wrap; }
+      .award-divider { display: none; }
+    }
+    @media (max-width: 768px) {
+      .mission-grid { grid-template-columns: 1fr; }
+      .mission-right { margin-top: 60px; padding-bottom: 40px; }
+      .mission-img-sm { left: 0; }
+      .mission-badge { right: 16px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .timeline::before { left: 20px; }
+      .timeline-item { flex-direction: column !important; }
+      .timeline-item:nth-child(odd) .tl-content { text-align: left; }
+      .tl-dot { display: none; }
+      .tl-year { font-size: 60px; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+<nav class="nav scrolled" id="mainNav">
+  <a href="index.html" class="nav-logo">IMMO<span>.</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="proprietes.html" class="nav-link">Propriétés</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="a-propos.html" class="nav-link">À propos</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <a href="contact.html" class="nav-cta">Nous contacter</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Accueil</a>
+  <a href="proprietes.html" class="nav-link">Propriétés</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="a-propos.html" class="nav-link">À propos</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+</div>
+
+<!-- ══ PAGE HERO ══════════════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1800&q=70');"></div>
+  <div class="container page-hero-content">
+    <span class="tag">Notre histoire</span>
+    <h1 class="display-title">À propos d'IMMO</h1>
+  </div>
+</section>
+
+<!-- ══ MISSION ══════════════════════════════════════════════════════════ -->
+<section class="mission-section">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-left">
+        <span class="tag reveal">Notre mission</span>
+        <h2 class="display-title reveal">
+          Transformer vos projets<br>
+          en <em style="font-style:italic;color:var(--gold);">réalités.</em>
+        </h2>
+        <div class="divider reveal"></div>
+        <p class="reveal">IMMO est née en 2006 d'une conviction simple : l'immobilier mérite une approche humaine, rigoureuse et innovante. Depuis, nous avons accompagné plus de 1 200 familles et investisseurs dans leurs projets immobiliers.</p>
+        <p class="reveal">Notre ancrage local, combiné à une vision internationale, nous permet de vous proposer les meilleures opportunités du marché, avec un service cinq étoiles à chaque étape.</p>
+        <p class="reveal">Chez IMMO, chaque client est unique. C'est pourquoi chaque accompagnement est sur-mesure, chaque conseil est personnalisé, et chaque transaction est traitée avec la plus grande attention.</p>
+        <a href="contact.html" class="btn-primary reveal" style="margin-top:32px;">Prendre rendez-vous</a>
+      </div>
+      <div class="mission-right reveal-right">
+        <img class="mission-img-main" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=85" alt="Notre équipe">
+        <img class="mission-img-sm" src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=500&q=80" alt="Bureau IMMO">
+        <div class="mission-badge">
+          <span class="bval">18</span>
+          <span class="blbl">Ans<br>d'expertise</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AWARDS ══════════════════════════════════════════════════════════ -->
+<div class="awards-bar">
+  <div class="container">
+    <div class="awards-inner stagger-children">
+      <div class="award-item">
+        <div class="award-icon"><i class="fa fa-trophy"></i></div>
+        <div class="award-text">
+          <div class="aw-title">Meilleure Agence 2023</div>
+          <div class="aw-sub">Prix National Immobilier</div>
+        </div>
+      </div>
+      <div class="award-divider"></div>
+      <div class="award-item">
+        <div class="award-icon"><i class="fa fa-star"></i></div>
+        <div class="award-text">
+          <div class="aw-title">Excellence Service Client</div>
+          <div class="aw-sub">Certification FNAIM Afrique</div>
+        </div>
+      </div>
+      <div class="award-divider"></div>
+      <div class="award-item">
+        <div class="award-icon"><i class="fa fa-shield-alt"></i></div>
+        <div class="award-text">
+          <div class="aw-title">Agence Certifiée</div>
+          <div class="aw-sub">Chambre Immobilière Nationale</div>
+        </div>
+      </div>
+      <div class="award-divider"></div>
+      <div class="award-item">
+        <div class="award-icon"><i class="fa fa-handshake"></i></div>
+        <div class="award-text">
+          <div class="aw-title">98% de Satisfaction</div>
+          <div class="aw-sub">Enquête clients 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VALUES ══════════════════════════════════════════════════════════ -->
+<section class="values-section">
+  <div class="container">
+    <span class="tag reveal">Ce qui nous définit</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);">Nos valeurs fondamentales</h2>
+    <div class="values-grid">
+      <div class="value-item reveal" data-num="01">
+        <span class="value-number">01</span>
+        <h3>Excellence</h3>
+        <p>Nous refusons la médiocrité à chaque étape. De la sélection des biens à la signature finale, l'excellence est notre standard absolu.</p>
+      </div>
+      <div class="value-item reveal" data-num="02">
+        <span class="value-number">02</span>
+        <h3>Intégrité</h3>
+        <p>Transparence totale dans nos estimations, nos honoraires et nos conseils. Votre confiance est notre actif le plus précieux.</p>
+      </div>
+      <div class="value-item reveal" data-num="03">
+        <span class="value-number">03</span>
+        <h3>Innovation</h3>
+        <p>Nous combinons expertise humaine et outils digitaux modernes pour vous offrir une expérience immobilière unique et sans friction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TIMELINE ══════════════════════════════════════════════════════════ -->
+<section class="timeline-section">
+  <div class="container">
+    <span class="tag reveal" style="justify-content:center;">Notre parcours</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);text-align:center;">18 ans d'histoire</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="tl-year">2006</div>
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-content">
+          <h3>Fondation d'IMMO</h3>
+          <p>Ouverture de notre première agence à Cocody, Abidjan. 3 collaborateurs, une vision, une conviction.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-year">2010</div>
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-content">
+          <h3>100ème transaction</h3>
+          <p>Une étape symbolique qui confirme notre positionnement sur le marché du luxe abidjanais.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-year">2015</div>
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-content">
+          <h3>Expansion régionale</h3>
+          <p>Ouverture de bureaux à San Pedro et Grand-Bassam. L'équipe passe à 25 collaborateurs.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-year">2020</div>
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-content">
+          <h3>Transformation digitale</h3>
+          <p>Lancement de notre plateforme digitale et service de visite virtuelle 360°. L'immobilier entre dans l'ère numérique.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-year">2024</div>
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-content">
+          <h3>Leader du marché luxe</h3>
+          <p>850+ transactions réalisées, 1 200+ clients fidèles, prix de la meilleure agence de prestige.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TEAM ══════════════════════════════════════════════════════════════ -->
+<section class="team-section">
+  <div class="container">
+    <span class="tag reveal">Nos experts</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);">L'équipe IMMO</h2>
+    <div class="team-grid stagger-children">
+      <div class="team-card">
+        <div class="team-card-img-wrap">
+          <img class="team-card-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Directeur">
+          <div class="team-card-overlay"></div>
+          <div class="team-card-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <h3>Jean-Paul Konaté</h3>
+        <span class="role">Directeur Général</span>
+      </div>
+      <div class="team-card">
+        <div class="team-card-img-wrap">
+          <img class="team-card-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80" alt="Directrice commerciale">
+          <div class="team-card-overlay"></div>
+          <div class="team-card-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <h3>Aminata Bamba</h3>
+        <span class="role">Directrice Commerciale</span>
+      </div>
+      <div class="team-card">
+        <div class="team-card-img-wrap">
+          <img class="team-card-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" alt="Expert immobilier">
+          <div class="team-card-overlay"></div>
+          <div class="team-card-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <h3>Mathieu Djoua</h3>
+        <span class="role">Expert Immobilier Luxe</span>
+      </div>
+      <div class="team-card">
+        <div class="team-card-img-wrap">
+          <img class="team-card-img" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80" alt="Conseillère">
+          <div class="team-card-overlay"></div>
+          <div class="team-card-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <h3>Carine Touré</h3>
+        <span class="role">Conseillère Gestion Locative</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">IMMO<span style="color:var(--text);">.</span></div>
+      <p>Votre agence immobilière de prestige. Des propriétés d'exception pour une clientèle exigeante depuis 2006.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="proprietes.html">Propriétés</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Achat immobilier</a></li>
+        <li><a href="services.html">Vente de bien</a></li>
+        <li><a href="services.html">Gestion locative</a></li>
+        <li><a href="services.html">Estimation gratuite</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+2250700000000"><i class="fa fa-phone" style="color:var(--gold);margin-right:8px;"></i>+225 07 00 00 00 00</a></li>
+        <li><a href="mailto:contact@immo.ci"><i class="fa fa-envelope" style="color:var(--gold);margin-right:8px;"></i>contact@immo.ci</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt" style="color:var(--gold);margin-right:8px;"></i>Cocody, Abidjan, CI</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2006 – 2026 IMMO — Agence Immobilière de Prestige. Tous droits réservés.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="main.js"></script>
+<script>
+  gsap.from('.page-hero-content', { opacity: 0, y: 40, duration: 1.2, ease: 'power4.out', delay: 0.3 });
+</script>
+</body>
+</html>

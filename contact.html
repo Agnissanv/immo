@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — IMMO Agence Immobilière</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* CONTACT SECTION */
+    .contact-section { padding: 80px 0 120px; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* LEFT — INFO */
+    .contact-info h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 54px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .contact-info > p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+    .contact-items { display: flex; flex-direction: column; gap: 0; }
+    .contact-item {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-light);
+      align-items: flex-start;
+    }
+    .contact-item:first-child { border-top: 1px solid var(--border-light); }
+    .contact-item-icon {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .contact-item-text .label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .contact-item-text a,
+    .contact-item-text span {
+      font-size: 16px;
+      color: var(--text);
+      display: block;
+      line-height: 1.5;
+      transition: color 0.3s;
+    }
+    .contact-item-text a:hover { color: var(--gold); }
+
+    /* Horaires */
+    .horaires {
+      margin-top: 40px;
+      padding: 28px;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      background: var(--bg2);
+    }
+    .horaires h4 {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .horaires-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .horaires-row:last-child { border-bottom: none; }
+    .horaires-row .day { color: var(--text-muted); }
+    .horaires-row .time { color: var(--text); font-weight: 500; }
+    .horaires-row .closed { color: rgba(255,80,80,0.7); }
+
+    /* Socials */
+    .contact-socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .contact-social {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .contact-social:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    /* RIGHT — FORM */
+    .contact-form-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      padding: 56px;
+    }
+    .form-header {
+      margin-bottom: 40px;
+    }
+    .form-header .tag { margin-bottom: 12px; }
+    .form-header h3 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+    }
+
+    /* Form tabs */
+    .form-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 36px;
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .form-tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      background: transparent;
+      font-family: var(--font-body);
+      border: none;
+    }
+    .form-tab.active {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .form-tab:not(.active):hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* Form fields */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group {
+      margin-bottom: 24px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--text);
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+      appearance: none;
+    }
+    .form-group select option { background: var(--bg2); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text-muted); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.04);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit {
+      width: 100%;
+      padding: 18px;
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: var(--transition);
+      margin-top: 8px;
+    }
+    .form-submit:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* SUCCESS STATE */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 0;
+    }
+    .form-success .success-icon {
+      width: 72px; height: 72px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--gold);
+      margin: 0 auto 24px;
+    }
+    .form-success h3 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .form-success p { font-size: 15px; color: var(--text-muted); }
+
+    /* MAP SECTION */
+    .map-section {
+      border-top: 1px solid var(--border-light);
+    }
+    .map-wrap {
+      position: relative;
+      height: 500px;
+      overflow: hidden;
+      background: var(--bg2);
+    }
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: invert(90%) hue-rotate(180deg) saturate(0.7) brightness(0.85);
+    }
+    .map-overlay-card {
+      position: absolute;
+      top: 40px;
+      left: 60px;
+      background: rgba(7,7,15,0.92);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 32px;
+      min-width: 280px;
+    }
+    .map-overlay-card h4 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .map-info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .map-info-row i { color: var(--gold); width: 16px; font-size: 14px; }
+    .map-info-row:last-child { margin-bottom: 0; }
+
+    /* FAQ */
+    .faq-section {
+      padding: 100px 0;
+      background: var(--bg2);
+      border-top: 1px solid var(--border-light);
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 60px;
+    }
+    .faq-item {
+      padding: 28px;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .faq-item:hover { border-color: var(--border); background: rgba(255,255,255,0.02); }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .faq-question h4 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .faq-icon {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--gold); color: var(--bg); border-color: var(--gold); }
+    .faq-answer {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-top: 16px;
+      display: none;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    @media (max-width: 1024px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 40px; }
+      .map-overlay-card { left: 24px; }
+      .faq-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .contact-form-wrap { padding: 28px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .map-overlay-card { left: 16px; top: 16px; right: 16px; min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+<nav class="nav scrolled" id="mainNav">
+  <a href="index.html" class="nav-logo">IMMO<span>.</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="proprietes.html" class="nav-link">Propriétés</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="a-propos.html" class="nav-link">À propos</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <a href="contact.html" class="nav-cta">Nous contacter</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Accueil</a>
+  <a href="proprietes.html" class="nav-link">Propriétés</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="a-propos.html" class="nav-link">À propos</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+</div>
+
+<!-- ══ PAGE HERO ══════════════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=70');"></div>
+  <div class="container page-hero-content">
+    <span class="tag">Parlons de votre projet</span>
+    <h1 class="display-title">Contactez-nous</h1>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══════════════════════════════════════════════════════════ -->
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- LEFT -->
+      <div class="contact-info reveal-left">
+        <span class="tag">Nous joindre</span>
+        <h2>Discutons de<br><em style="font-style:italic;color:var(--gold);">votre projet.</em></h2>
+        <p>Que vous souhaitiez acheter, vendre, louer ou investir, notre équipe est disponible pour vous accompagner. Contactez-nous par le moyen qui vous convient le mieux.</p>
+
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa fa-phone"></i></div>
+            <div class="contact-item-text">
+              <span class="label">Téléphone</span>
+              <a href="tel:+2250700000000">+225 07 00 00 00 00</a>
+              <a href="tel:+2250500000000">+225 05 00 00 00 00</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa fa-envelope"></i></div>
+            <div class="contact-item-text">
+              <span class="label">Email</span>
+              <a href="mailto:contact@immo.ci">contact@immo.ci</a>
+              <a href="mailto:vente@immo.ci">vente@immo.ci</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa fa-map-marker-alt"></i></div>
+            <div class="contact-item-text">
+              <span class="label">Adresse</span>
+              <span>Résidence Les Mimosas, Apt 8B</span>
+              <span>Cocody, Abidjan, Côte d'Ivoire</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fab fa-whatsapp"></i></div>
+            <div class="contact-item-text">
+              <span class="label">WhatsApp</span>
+              <a href="https://wa.me/2250700000000">+225 07 00 00 00 00</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="horaires">
+          <h4>Horaires d'ouverture</h4>
+          <div class="horaires-row">
+            <span class="day">Lundi — Vendredi</span>
+            <span class="time">08h00 — 18h00</span>
+          </div>
+          <div class="horaires-row">
+            <span class="day">Samedi</span>
+            <span class="time">09h00 — 14h00</span>
+          </div>
+          <div class="horaires-row">
+            <span class="day">Dimanche</span>
+            <span class="closed">Fermé</span>
+          </div>
+        </div>
+
+        <div class="contact-socials">
+          <a href="#" class="contact-social"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="contact-social"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="contact-social"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="contact-social"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <!-- RIGHT — FORM -->
+      <div class="contact-form-wrap reveal-right">
+        <div class="form-header">
+          <span class="tag">Formulaire de contact</span>
+          <h3>Envoyez-nous un message</h3>
+        </div>
+
+        <!-- Tabs -->
+        <div class="form-tabs">
+          <button class="form-tab active" onclick="switchTab(this, 'achat')">Achat</button>
+          <button class="form-tab" onclick="switchTab(this, 'vente')">Vente</button>
+          <button class="form-tab" onclick="switchTab(this, 'location')">Location</button>
+          <button class="form-tab" onclick="switchTab(this, 'autre')">Autre</button>
+        </div>
+
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Prénom *</label>
+              <input type="text" placeholder="Votre prénom" required>
+            </div>
+            <div class="form-group">
+              <label>Nom *</label>
+              <input type="text" placeholder="Votre nom" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" placeholder="votre@email.com" required>
+            </div>
+            <div class="form-group">
+              <label>Téléphone</label>
+              <input type="tel" placeholder="+225 07 00 00 00 00">
+            </div>
+          </div>
+          <div class="form-group" id="budgetField">
+            <label>Budget / Fourchette de prix</label>
+            <select>
+              <option value="">Sélectionner...</option>
+              <option>Moins de 50 000 000 FCFA</option>
+              <option>50 000 000 — 100 000 000 FCFA</option>
+              <option>100 000 000 — 250 000 000 FCFA</option>
+              <option>250 000 000 — 500 000 000 FCFA</option>
+              <option>Plus de 500 000 000 FCFA</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Objet du message *</label>
+            <input type="text" id="messageSubject" placeholder="Ex: Recherche villa 4 chambres Cocody" required>
+          </div>
+          <div class="form-group">
+            <label>Votre message *</label>
+            <textarea placeholder="Décrivez votre projet en détail..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            Envoyer le message <i class="fa fa-paper-plane"></i>
+          </button>
+        </form>
+
+        <!-- Success -->
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon"><i class="fa fa-check"></i></div>
+          <h3>Message envoyé !</h3>
+          <p>Notre équipe vous contactera dans les 24 heures ouvrées. Merci de votre confiance.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ MAP ══════════════════════════════════════════════════════════════ -->
+<div class="map-section">
+  <div class="map-wrap">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63617.28752!2d-4.0305!3d5.3600!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1ea5311959ad5%3A0x3dda5f2e4e8e2e!2sCocody%2C%20Abidjan!5e0!3m2!1sfr!2sci!4v1699900000000"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <div class="map-overlay-card reveal">
+      <h4>IMMO — Siège Social</h4>
+      <div class="map-info-row">
+        <i class="fa fa-map-marker-alt"></i>
+        <span>Cocody Ambassades, Abidjan</span>
+      </div>
+      <div class="map-info-row">
+        <i class="fa fa-phone"></i>
+        <span>+225 07 00 00 00 00</span>
+      </div>
+      <div class="map-info-row">
+        <i class="fa fa-clock"></i>
+        <span>Lun — Ven, 08h00 — 18h00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FAQ ══════════════════════════════════════════════════════════════ -->
+<section class="faq-section">
+  <div class="container">
+    <span class="tag reveal" style="justify-content:center;">Questions fréquentes</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);text-align:center;">Vous avez des questions ?</h2>
+    <div class="faq-grid">
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <h4>Combien coûte une estimation de mon bien ?</h4>
+          <div class="faq-icon"><i class="fa fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">L'estimation de votre bien est entièrement gratuite et sans engagement. Un de nos experts se déplace chez vous, analyse le bien et vous remet une évaluation détaillée sous 48h.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <h4>Quels sont vos délais pour trouver un bien ?</h4>
+          <div class="faq-icon"><i class="fa fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">En moyenne, nous proposons les premières sélections dans la semaine suivant votre contact. Le délai global jusqu'à la transaction varie selon la complexité du projet, généralement entre 3 et 8 semaines.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <h4>Quelles zones géographiques couvrez-vous ?</h4>
+          <div class="faq-icon"><i class="fa fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">Nous opérons principalement à Abidjan et sa périphérie (Cocody, Plateau, Marcory, Riviera, Bingerville, etc.) ainsi que dans les principales villes de Côte d'Ivoire : San Pedro, Yamoussoukro, Grand-Bassam.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <h4>Pouvez-vous aider un acheteur étranger ?</h4>
+          <div class="faq-icon"><i class="fa fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">Oui, absolument. Nous accompagnons régulièrement des acquéreurs de la diaspora ou des investisseurs étrangers, avec une gestion complète à distance incluant visites virtuelles, coordination notariale et suivi post-acquisition.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <h4>Comment fonctionne la gestion locative ?</h4>
+          <div class="faq-icon"><i class="fa fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">Nous prenons en charge tout : sélection des locataires, rédaction du bail, encaissement des loyers, gestion des travaux et reporting mensuel. Vous percevez vos revenus sans aucune contrainte de gestion.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <h4>Mes informations sont-elles confidentielles ?</h4>
+          <div class="faq-icon"><i class="fa fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">Votre confidentialité est une priorité absolue chez IMMO. Toutes vos informations personnelles et financières sont protégées et ne sont jamais partagées sans votre accord explicite.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">IMMO<span style="color:var(--text);">.</span></div>
+      <p>Votre agence immobilière de prestige. Des propriétés d'exception pour une clientèle exigeante depuis 2006.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="proprietes.html">Propriétés</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Achat immobilier</a></li>
+        <li><a href="services.html">Vente de bien</a></li>
+        <li><a href="services.html">Gestion locative</a></li>
+        <li><a href="services.html">Estimation gratuite</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+2250700000000"><i class="fa fa-phone" style="color:var(--gold);margin-right:8px;"></i>+225 07 00 00 00 00</a></li>
+        <li><a href="mailto:contact@immo.ci"><i class="fa fa-envelope" style="color:var(--gold);margin-right:8px;"></i>contact@immo.ci</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt" style="color:var(--gold);margin-right:8px;"></i>Cocody, Abidjan, CI</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2006 – 2026 IMMO — Agence Immobilière de Prestige. Tous droits réservés.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="main.js"></script>
+<script>
+  gsap.from('.page-hero-content', { opacity: 0, y: 40, duration: 1.2, ease: 'power4.out', delay: 0.3 });
+
+  function switchTab(btn, type) {
+    document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const subjects = {
+      achat: 'Recherche de bien à acquérir',
+      vente: 'Mise en vente de mon bien',
+      location: 'Projet de location / gestion locative',
+      autre: ''
+    };
+    document.getElementById('messageSubject').value = subjects[type];
+    document.getElementById('budgetField').style.display = type === 'vente' ? 'none' : 'block';
+  }
+
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+    gsap.to(form, {
+      opacity: 0, y: -20, duration: 0.4, ease: 'power3.in',
+      onComplete: () => {
+        form.style.display = 'none';
+        success.style.display = 'block';
+        gsap.from(success, { opacity: 0, y: 30, duration: 0.6, ease: 'power3.out' });
+      }
+    });
+  }
+
+  function toggleFaq(item) {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

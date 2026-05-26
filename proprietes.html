@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propriétés — IMMO Agence Immobilière</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* FILTER BAR */
+    .filter-bar {
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 100;
+      background: rgba(7,7,15,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 20px 0;
+    }
+    .filter-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 10px 22px;
+      border: 1px solid var(--border-light);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      background: transparent;
+      font-family: var(--font-body);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,169,110,0.08);
+    }
+    .filter-select {
+      padding: 10px 36px 10px 16px;
+      border: 1px solid var(--border-light);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-muted);
+      background: transparent;
+      font-family: var(--font-body);
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      transition: border-color 0.3s;
+    }
+    .filter-select option { background: var(--bg2); }
+    .filter-select:focus { border-color: var(--gold); }
+    .filter-count {
+      margin-left: auto;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .filter-count span { color: var(--gold); font-weight: 500; }
+
+    /* RESULTS GRID */
+    .results-section { padding: 60px 0 120px; }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .results-grid .prop-card-img { height: 220px; }
+
+    /* FEATURED LISTING (full width) */
+    .featured-listing {
+      grid-column: span 3;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .featured-listing img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+    .featured-listing-body {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .featured-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .featured-tag::before { content:''; display:block; width:20px; height:1px; background:var(--gold); }
+    .featured-listing-body h2 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .featured-listing-body .price {
+      font-family: var(--font-display);
+      font-size: 28px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .featured-listing-body p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+    .featured-specs {
+      display: flex;
+      gap: 28px;
+      margin-bottom: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+    }
+    .spec-big {
+      text-align: center;
+    }
+    .spec-big .val {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+      display: block;
+    }
+    .spec-big .lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* PAGINATION */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 60px;
+    }
+    .page-btn {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      background: transparent;
+      font-family: var(--font-body);
+    }
+    .page-btn:hover, .page-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .page-btn.active { background: rgba(201,169,110,0.1); }
+
+    @media (max-width: 1024px) {
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .featured-listing { grid-column: span 2; }
+    }
+    @media (max-width: 768px) {
+      .results-grid { grid-template-columns: 1fr; }
+      .featured-listing { grid-column: span 1; grid-template-columns: 1fr; }
+      .featured-listing img { height: 250px; }
+      .featured-listing-body { padding: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+<nav class="nav scrolled" id="mainNav">
+  <a href="index.html" class="nav-logo">IMMO<span>.</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="proprietes.html" class="nav-link">Propriétés</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="a-propos.html" class="nav-link">À propos</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <a href="contact.html" class="nav-cta">Nous contacter</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Accueil</a>
+  <a href="proprietes.html" class="nav-link">Propriétés</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="a-propos.html" class="nav-link">À propos</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+</div>
+
+<!-- ══ PAGE HERO ══════════════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1800&q=70');"></div>
+  <div class="container page-hero-content">
+    <span class="tag">Notre portfolio</span>
+    <h1 class="display-title">Nos propriétés</h1>
+  </div>
+</section>
+
+<!-- ══ FILTER BAR ══════════════════════════════════════════════════════════ -->
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-inner">
+      <button class="filter-btn active" data-filter="tous">Tous</button>
+      <button class="filter-btn" data-filter="villas">Villas</button>
+      <button class="filter-btn" data-filter="appartements">Appartements</button>
+      <button class="filter-btn" data-filter="penthouses">Penthouses</button>
+      <button class="filter-btn" data-filter="maisons">Maisons</button>
+      <select class="filter-select">
+        <option>Trier par : Récents</option>
+        <option>Prix croissant</option>
+        <option>Prix décroissant</option>
+        <option>Surface</option>
+      </select>
+      <select class="filter-select">
+        <option>Toutes zones</option>
+        <option>Cocody</option>
+        <option>Plateau</option>
+        <option>Marcory</option>
+        <option>Riviera</option>
+      </select>
+      <div class="filter-count">
+        <span>18</span> propriétés trouvées
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULTS ══════════════════════════════════════════════════════════ -->
+<section class="results-section">
+  <div class="container">
+    <div class="results-grid" id="propGrid">
+
+      <!-- FEATURED — Villa -->
+      <div class="featured-listing reveal-scale" data-category="villas">
+        <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1000&q=85" alt="Villa Prestige">
+        <div class="featured-listing-body">
+          <div class="featured-tag">Exclusivité IMMO</div>
+          <h2>Villa Prestige Infinity — Cocody Ambassades</h2>
+          <div class="price">850 000 000 FCFA</div>
+          <p>Sommet de l'architecture contemporaine africaine. Cette villa d'exception offre une piscine à débordement, des matériaux nobles importés et une domotique intégrée.</p>
+          <div class="featured-specs">
+            <div class="spec-big"><span class="val">6</span><span class="lbl">Chambres</span></div>
+            <div class="spec-big"><span class="val">5</span><span class="lbl">SDB</span></div>
+            <div class="spec-big"><span class="val">680</span><span class="lbl">m²</span></div>
+            <div class="spec-big"><span class="val">1 200</span><span class="lbl">m² terrain</span></div>
+          </div>
+          <a href="contact.html" class="btn-primary">Demander une visite <i class="fa fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Card 1 — Penthouse -->
+      <div class="prop-card reveal" data-category="penthouses">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=85" alt="Penthouse">
+        <span class="prop-card-badge" style="background:var(--bg3);color:var(--gold);border:1px solid var(--border);">Nouveau</span>
+        <div class="prop-card-body">
+          <div class="prop-card-price">420 000 000 FCFA</div>
+          <div class="prop-card-title">Penthouse Vue Mer Panoramique</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Marcory Zone 4</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 4 ch.</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 3 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 320 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 — Appartement -->
+      <div class="prop-card reveal" data-category="appartements">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=700&q=85" alt="Appartement Duplex">
+        <div class="prop-card-body">
+          <div class="prop-card-price">185 000 000 FCFA</div>
+          <div class="prop-card-title">Appartement Duplex Moderne</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Plateau, Abidjan</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 3 ch.</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 2 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 175 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 — Maison -->
+      <div class="prop-card reveal" data-category="maisons">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=700&q=85" alt="Maison">
+        <div class="prop-card-body">
+          <div class="prop-card-price">290 000 000 FCFA</div>
+          <div class="prop-card-title">Maison Contemporaine avec Jardin</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Riviera 3</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 5 ch.</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 4 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 420 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 — Villa -->
+      <div class="prop-card reveal" data-category="villas">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=85" alt="Villa moderne">
+        <span class="prop-card-badge">En vedette</span>
+        <div class="prop-card-body">
+          <div class="prop-card-price">560 000 000 FCFA</div>
+          <div class="prop-card-title">Villa Architecte avec Dépendances</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Cocody 2 Plateaux</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 7 ch.</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 6 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 820 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 — Appartement -->
+      <div class="prop-card reveal" data-category="appartements">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=700&q=85" alt="Appartement luxe">
+        <div class="prop-card-body">
+          <div class="prop-card-price">95 000 000 FCFA</div>
+          <div class="prop-card-title">Appartement Premium Meublé</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Marcory, Abidjan</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 2 ch.</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 2 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 110 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 — Maison -->
+      <div class="prop-card reveal" data-category="maisons">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=700&q=85" alt="Résidence">
+        <div class="prop-card-body">
+          <div class="prop-card-price">380 000 000 FCFA</div>
+          <div class="prop-card-title">Résidence Sécurisée avec Piscine</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Bingerville</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 5 ch.</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 4 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 550 m²</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Pagination dynamique -->
+    <div class="pagination" id="pagination"></div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">IMMO<span style="color:var(--text);">.</span></div>
+      <p>Votre agence immobilière de prestige. Des propriétés d'exception pour une clientèle exigeante depuis 2006.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="proprietes.html">Propriétés</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Achat immobilier</a></li>
+        <li><a href="services.html">Vente de bien</a></li>
+        <li><a href="services.html">Gestion locative</a></li>
+        <li><a href="services.html">Estimation gratuite</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+2250700000000"><i class="fa fa-phone" style="color:var(--gold);margin-right:8px;"></i>+225 07 00 00 00 00</a></li>
+        <li><a href="mailto:contact@immo.ci"><i class="fa fa-envelope" style="color:var(--gold);margin-right:8px;"></i>contact@immo.ci</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt" style="color:var(--gold);margin-right:8px;"></i>Cocody, Abidjan, CI</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2006 – 2026 IMMO — Agence Immobilière de Prestige. Tous droits réservés.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="main.js"></script>
+<script>
+  // ── Hero entrance
+  gsap.from('.page-hero-content', {
+    opacity: 0, y: 40, duration: 1.2, ease: 'power4.out', delay: 0.3
+  });
+
+  // ── FILTRAGE + PAGINATION ─────────────────────────────────────────────
+  const PAR_PAGE   = 4;
+  const grille     = document.getElementById('propGrid');
+  const pagination = document.getElementById('pagination');
+  const compteur   = document.querySelector('.filter-count span');
+
+  const toutesLesCards = Array.from(
+    grille.querySelectorAll('.prop-card, .featured-listing')
+  );
+
+  let filtreCourant = 'tous';
+  let pageCourante  = 1;
+
+  // Retourne seulement les cards qui correspondent au filtre actif
+  function cardsVisibles() {
+    if (filtreCourant === 'tous') return toutesLesCards;
+    return toutesLesCards.filter(c => c.dataset.category === filtreCourant);
+  }
+
+  function afficherPage(page) {
+    const visibles = cardsVisibles();
+    const debut    = (page - 1) * PAR_PAGE;
+    const fin      = debut + PAR_PAGE;
+
+    // Cache toutes les cards d'abord
+    toutesLesCards.forEach(c => { c.style.display = 'none'; });
+
+    // Affiche uniquement celles de la page courante
+    visibles.forEach((card, index) => {
+      if (index >= debut && index < fin) {
+        card.style.display   = '';
+        card.style.opacity   = '0';
+        card.style.transform = 'translateY(24px)';
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+          card.style.opacity    = '1';
+          card.style.transform  = 'translateY(0)';
+        }, index * 70);
+      }
+    });
+
+    // Met à jour le compteur
+    compteur.textContent = visibles.length;
+    pageCourante = page;
+    construirePagination();
+    grille.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function construirePagination() {
+    const visibles   = cardsVisibles();
+    const totalPages = Math.ceil(visibles.length / PAR_PAGE);
+    pagination.innerHTML = '';
+
+    if (totalPages <= 1) return;
+
+    // Bouton ‹
+    const btnPrev = document.createElement('button');
+    btnPrev.className = 'page-btn';
+    btnPrev.innerHTML = '<i class="fa fa-chevron-left"></i>';
+    btnPrev.addEventListener('click', () => {
+      if (pageCourante > 1) afficherPage(pageCourante - 1);
+    });
+    pagination.appendChild(btnPrev);
+
+    // Boutons numérotés
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className    = 'page-btn' + (i === pageCourante ? ' active' : '');
+      btn.dataset.page = i;
+      btn.textContent  = i;
+      btn.addEventListener('click', () => afficherPage(i));
+      pagination.appendChild(btn);
+    }
+
+    // Bouton ›
+    const btnNext = document.createElement('button');
+    btnNext.className = 'page-btn';
+    btnNext.innerHTML = '<i class="fa fa-chevron-right"></i>';
+    btnNext.addEventListener('click', () => {
+      if (pageCourante < totalPages) afficherPage(pageCourante + 1);
+    });
+    pagination.appendChild(btnNext);
+  }
+
+  // ── Boutons de filtre
+  document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      filtreCourant = this.dataset.filter;
+      pageCourante  = 1;
+      afficherPage(1);
+    });
+  });
+
+  // ── Lancement initial
+  compteur.textContent = toutesLesCards.length;
+  construirePagination();
+  afficherPage(1);
+</script>
+</body>
+</html>

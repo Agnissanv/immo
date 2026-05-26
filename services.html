@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — IMMO Agence Immobilière</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* SERVICES DETAIL */
+    .services-detail { padding: 100px 0; }
+    .service-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .service-block:last-child { border-bottom: none; }
+    .service-block:nth-child(even) .service-block-img { order: -1; }
+    .service-block-img {
+      position: relative;
+      height: 460px;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    .service-block-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-out);
+    }
+    .service-block-img:hover img { transform: scale(1.04); }
+    .service-block-img-tag {
+      position: absolute;
+      top: 24px; left: 24px;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 8px 20px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 2px;
+    }
+    .service-block-text .num {
+      font-family: var(--font-display);
+      font-size: 80px;
+      font-weight: 700;
+      color: rgba(201,169,110,0.1);
+      line-height: 1;
+      margin-bottom: -20px;
+      display: block;
+    }
+    .service-block-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+    .service-block-text p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+    .service-features {
+      margin: 28px 0 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .service-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+    .service-feature i { color: var(--gold); font-size: 14px; width: 16px; }
+
+    /* PROCESS */
+    .process-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      padding: 100px 0;
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      position: relative;
+      margin-top: 60px;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: var(--border-light);
+    }
+    .process-step {
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+    }
+    .step-circle {
+      width: 56px; height: 56px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--gold);
+      background: var(--bg2);
+      margin: 0 auto 24px;
+      position: relative;
+      z-index: 1;
+      transition: var(--transition);
+    }
+    .process-step:hover .step-circle {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+    .step-num {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* PRICING */
+    .pricing-section { padding: 100px 0; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .pricing-card {
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      padding: 48px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s, transform 0.4s;
+    }
+    .pricing-card:hover { border-color: var(--border); transform: translateY(-6px); }
+    .pricing-card.featured {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.04);
+    }
+    .pricing-card.featured::before {
+      content: 'Plus populaire';
+      position: absolute;
+      top: 20px; right: 20px;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 4px 14px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+    .pricing-type {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .pricing-name {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .pricing-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .pricing-commission {
+      margin-bottom: 32px;
+    }
+    .pricing-commission .rate {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1;
+    }
+    .pricing-commission .rate sup {
+      font-size: 24px;
+      vertical-align: top;
+      margin-top: 12px;
+    }
+    .pricing-commission .period {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .pricing-features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .pricing-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+    .pricing-feature i { color: var(--gold); font-size: 12px; width: 14px; }
+
+    /* GUARANTEE */
+    .guarantee-section {
+      background: var(--bg2);
+      padding: 100px 0;
+      border-top: 1px solid var(--border-light);
+    }
+    .guarantee-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 60px;
+    }
+    .guarantee-item {
+      text-align: center;
+    }
+    .guarantee-icon {
+      width: 64px; height: 64px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 22px;
+      color: var(--gold);
+      transition: var(--transition);
+    }
+    .guarantee-item:hover .guarantee-icon {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+    .guarantee-item h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .guarantee-item p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1024px) {
+      .service-block { grid-template-columns: 1fr; gap: 40px; }
+      .service-block:nth-child(even) .service-block-img { order: 0; }
+      .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .process-steps::before { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-inline: auto; }
+      .guarantee-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .process-steps { grid-template-columns: 1fr; }
+      .guarantee-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+<nav class="nav scrolled" id="mainNav">
+  <a href="index.html" class="nav-logo">IMMO<span>.</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="proprietes.html" class="nav-link">Propriétés</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="a-propos.html" class="nav-link">À propos</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <a href="contact.html" class="nav-cta">Nous contacter</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Accueil</a>
+  <a href="proprietes.html" class="nav-link">Propriétés</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="a-propos.html" class="nav-link">À propos</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+</div>
+
+<!-- ══ PAGE HERO ══════════════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1800&q=70');"></div>
+  <div class="container page-hero-content">
+    <span class="tag">Notre expertise</span>
+    <h1 class="display-title">Nos services</h1>
+  </div>
+</section>
+
+<!-- ══ SERVICES DETAIL ══════════════════════════════════════════════════ -->
+<div class="services-detail">
+  <div class="container">
+
+    <!-- SERVICE 1 -->
+    <div class="service-block">
+      <div class="service-block-text">
+        <span class="num">01</span>
+        <span class="tag reveal">Achat immobilier</span>
+        <h2 class="reveal">Trouvons ensemble<br>votre bien idéal</h2>
+        <p class="reveal">Notre équipe d'experts vous accompagne dans toutes les étapes de votre recherche immobilière. De la définition de vos critères à la signature chez le notaire, nous sommes à vos côtés.</p>
+        <div class="service-features reveal">
+          <div class="service-feature"><i class="fa fa-check"></i> Analyse de vos besoins et définition du projet</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Sélection personnalisée de biens correspondants</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Organisation et accompagnement aux visites</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Négociation professionnelle du prix</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Suivi complet jusqu'à l'acte notarié</div>
+        </div>
+        <a href="contact.html" class="btn-primary reveal">Commencer ma recherche</a>
+      </div>
+      <div class="service-block-img reveal-right">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=85" alt="Achat immobilier">
+        <div class="service-block-img-tag">Achat & Acquisition</div>
+      </div>
+    </div>
+
+    <!-- SERVICE 2 -->
+    <div class="service-block">
+      <div class="service-block-img reveal-left">
+        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=85" alt="Vente immobilier">
+        <div class="service-block-img-tag">Vente & Cession</div>
+      </div>
+      <div class="service-block-text">
+        <span class="num">02</span>
+        <span class="tag reveal">Vente immobilière</span>
+        <h2 class="reveal">Valorisez et vendez<br>au meilleur prix</h2>
+        <p class="reveal">Grâce à notre réseau étendu d'acquéreurs qualifiés et notre expertise en estimation, nous assurons la vente rapide de votre bien au prix juste du marché.</p>
+        <div class="service-features reveal">
+          <div class="service-feature"><i class="fa fa-check"></i> Estimation précise et gratuite de votre bien</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Stratégie de mise en marché personnalisée</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Shooting photo professionnel et visite virtuelle</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Diffusion sur tous les canaux premium</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Sélection et qualification des acquéreurs</div>
+        </div>
+        <a href="contact.html" class="btn-primary reveal">Estimer mon bien</a>
+      </div>
+    </div>
+
+    <!-- SERVICE 3 -->
+    <div class="service-block">
+      <div class="service-block-text">
+        <span class="num">03</span>
+        <span class="tag reveal">Gestion locative</span>
+        <h2 class="reveal">Rentabilisez votre<br>patrimoine sereinement</h2>
+        <p class="reveal">Confiez-nous la gestion de vos biens locatifs. Nous prenons en charge l'intégralité de la gestion : locataires, loyers, entretien — vous percevez vos revenus sans contraintes.</p>
+        <div class="service-features reveal">
+          <div class="service-feature"><i class="fa fa-check"></i> Recherche et sélection rigoureuse des locataires</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Rédaction et signature des baux</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Encaissement et reversement des loyers</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Gestion des travaux et de l'entretien</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Reporting mensuel détaillé</div>
+        </div>
+        <a href="contact.html" class="btn-primary reveal">Confier mon bien</a>
+      </div>
+      <div class="service-block-img reveal-right">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=85" alt="Gestion locative">
+        <div class="service-block-img-tag">Gestion & Location</div>
+      </div>
+    </div>
+
+    <!-- SERVICE 4 -->
+    <div class="service-block">
+      <div class="service-block-img reveal-left">
+        <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=85" alt="Investissement">
+        <div class="service-block-img-tag">Conseil & Investissement</div>
+      </div>
+      <div class="service-block-text">
+        <span class="num">04</span>
+        <span class="tag reveal">Conseil en investissement</span>
+        <h2 class="reveal">Construisez votre<br>patrimoine immobilier</h2>
+        <p class="reveal">Nos experts en investissement immobilier analysent le marché et identifient pour vous les meilleures opportunités de rendement, adaptées à votre profil et à vos objectifs.</p>
+        <div class="service-features reveal">
+          <div class="service-feature"><i class="fa fa-check"></i> Analyse de votre situation patrimoniale</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Identification d'opportunités à fort rendement</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Étude de faisabilité et de rentabilité</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Accompagnement montage financier</div>
+          <div class="service-feature"><i class="fa fa-check"></i> Suivi de la performance de vos investissements</div>
+        </div>
+        <a href="contact.html" class="btn-primary reveal">Consulter un expert</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ PROCESS ══════════════════════════════════════════════════════════ -->
+<section class="process-section">
+  <div class="container">
+    <span class="tag reveal" style="justify-content:center;">Comment ça marche</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);text-align:center;">Notre processus en 5 étapes</h2>
+    <div class="process-steps stagger-children">
+      <div class="process-step">
+        <div class="step-circle"><i class="fa fa-phone"></i></div>
+        <span class="step-num">Étape 01</span>
+        <div class="step-title">Premier contact</div>
+        <p class="step-desc">Prise de contact et analyse de votre projet en 30 minutes.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle"><i class="fa fa-search"></i></div>
+        <span class="step-num">Étape 02</span>
+        <div class="step-title">Recherche & Sélection</div>
+        <p class="step-desc">Identification des meilleures opportunités selon vos critères.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle"><i class="fa fa-door-open"></i></div>
+        <span class="step-num">Étape 03</span>
+        <div class="step-title">Visites</div>
+        <p class="step-desc">Organisation des visites et accompagnement sur place.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle"><i class="fa fa-handshake"></i></div>
+        <span class="step-num">Étape 04</span>
+        <div class="step-title">Négociation</div>
+        <p class="step-desc">Négociation professionnelle pour obtenir les meilleures conditions.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle"><i class="fa fa-key"></i></div>
+        <span class="step-num">Étape 05</span>
+        <div class="step-title">Remise des clés</div>
+        <p class="step-desc">Signature et remise des clés. Votre projet est réalisé !</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══════════════════════════════════════════════════════════ -->
+<section class="pricing-section">
+  <div class="container">
+    <span class="tag reveal" style="justify-content:center;">Tarification claire</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);text-align:center;">Des honoraires transparents</h2>
+    <p class="reveal" style="text-align:center;color:var(--text-muted);max-width:500px;margin:16px auto 0;">Chez IMMO, pas de surprise. Nos honoraires sont clairs, justes et connus dès le départ.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <span class="pricing-type">Location</span>
+        <div class="pricing-name">Gestion Locative</div>
+        <p class="pricing-desc">Pour les propriétaires souhaitant déléguer la gestion de leurs biens.</p>
+        <div class="pricing-commission">
+          <div class="rate"><sup>%</sup>7<sup>,5</sup></div>
+          <div class="period">du loyer mensuel perçu</div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><i class="fa fa-check"></i> Recherche de locataires</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Gestion des loyers</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Suivi des travaux</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Reporting mensuel</div>
+        </div>
+        <a href="contact.html" class="btn-outline" style="width:100%;justify-content:center;">Commencer</a>
+      </div>
+
+      <div class="pricing-card featured reveal">
+        <span class="pricing-type">Vente</span>
+        <div class="pricing-name">Transaction Immobilière</div>
+        <p class="pricing-desc">La formule complète pour vendre ou acquérir un bien dans les meilleures conditions.</p>
+        <div class="pricing-commission">
+          <div class="rate"><sup>%</sup>5</div>
+          <div class="period">du prix de vente, tout compris</div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><i class="fa fa-check"></i> Estimation gratuite</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Shooting professionnel</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Diffusion premium</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Négociation incluse</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Suivi notarial complet</div>
+        </div>
+        <a href="contact.html" class="btn-primary" style="width:100%;justify-content:center;">Commencer</a>
+      </div>
+
+      <div class="pricing-card reveal">
+        <span class="pricing-type">Investissement</span>
+        <div class="pricing-name">Conseil Patrimonial</div>
+        <p class="pricing-desc">Pour les investisseurs souhaitant développer et optimiser leur patrimoine immobilier.</p>
+        <div class="pricing-commission">
+          <div class="rate">Sur<br style="display:block;content:'';height:4px;"><span style="font-size:20px;">devis</span></div>
+          <div class="period">selon complexité du projet</div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><i class="fa fa-check"></i> Audit patrimonial</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Stratégie d'investissement</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Analyse de rentabilité</div>
+          <div class="pricing-feature"><i class="fa fa-check"></i> Accompagnement dédié</div>
+        </div>
+        <a href="contact.html" class="btn-outline" style="width:100%;justify-content:center;">Nous contacter</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GUARANTEE ════════════════════════════════════════════════════════ -->
+<section class="guarantee-section">
+  <div class="container">
+    <span class="tag reveal" style="justify-content:center;">Notre engagement</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);text-align:center;">La garantie IMMO</h2>
+    <div class="guarantee-grid stagger-children">
+      <div class="guarantee-item">
+        <div class="guarantee-icon"><i class="fa fa-bolt"></i></div>
+        <h3>Réponse en 24h</h3>
+        <p>Nous répondons à chaque demande sous 24 heures ouvrées, sans exception.</p>
+      </div>
+      <div class="guarantee-item">
+        <div class="guarantee-icon"><i class="fa fa-euro-sign"></i></div>
+        <h3>Estimation gratuite</h3>
+        <p>L'évaluation de votre bien est toujours gratuite et sans engagement de votre part.</p>
+      </div>
+      <div class="guarantee-item">
+        <div class="guarantee-icon"><i class="fa fa-lock"></i></div>
+        <h3>Confidentialité totale</h3>
+        <p>Vos informations et transactions sont traitées avec la plus stricte confidentialité.</p>
+      </div>
+      <div class="guarantee-item">
+        <div class="guarantee-icon"><i class="fa fa-medal"></i></div>
+        <h3>Expertise certifiée</h3>
+        <p>Tous nos agents sont certifiés et formés en continu aux meilleures pratiques du marché.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">IMMO<span style="color:var(--text);">.</span></div>
+      <p>Votre agence immobilière de prestige. Des propriétés d'exception pour une clientèle exigeante depuis 2006.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="proprietes.html">Propriétés</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Achat immobilier</a></li>
+        <li><a href="services.html">Vente de bien</a></li>
+        <li><a href="services.html">Gestion locative</a></li>
+        <li><a href="services.html">Estimation gratuite</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+2250700000000"><i class="fa fa-phone" style="color:var(--gold);margin-right:8px;"></i>+225 07 00 00 00 00</a></li>
+        <li><a href="mailto:contact@immo.ci"><i class="fa fa-envelope" style="color:var(--gold);margin-right:8px;"></i>contact@immo.ci</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt" style="color:var(--gold);margin-right:8px;"></i>Cocody, Abidjan, CI</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2006 – 2026 IMMO — Agence Immobilière de Prestige. Tous droits réservés.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="main.js"></script>
+<script>
+  gsap.from('.page-hero-content', { opacity: 0, y: 40, duration: 1.2, ease: 'power4.out', delay: 0.3 });
+</script>
+</body>
+</html>

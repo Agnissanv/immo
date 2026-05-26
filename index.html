@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMMO — Agence Immobilière de Prestige</title>
+  <meta name="description" content="IMMO, votre agence immobilière de prestige. Villas, appartements et propriétés d'exception à travers le pays.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        rgba(7,7,15,0.92) 0%,
+        rgba(7,7,15,0.70) 50%,
+        rgba(7,7,15,0.30) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .hero-eyebrow-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    .hero-eyebrow span {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .hero-eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 1.0;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+    .hero-title .line-wrap { overflow: hidden; }
+    .hero-title .line { display: block; transform: translateY(110%); opacity: 0; }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .hero-actions {
+      display: flex;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    /* Search bar */
+    .hero-search {
+      position: absolute;
+      bottom: -36px;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+    .hero-search-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 24px;
+      align-items: end;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    }
+    .search-field label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .search-field select,
+    .search-field input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-light);
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--text);
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.3s;
+      appearance: none;
+    }
+    .search-field select option { background: var(--bg2); color: var(--text); }
+    .search-field select:focus,
+    .search-field input:focus { border-color: var(--gold); }
+    .search-field input::placeholder { color: var(--text-muted); }
+    .search-btn {
+      padding: 14px 32px;
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 2px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .search-btn:hover { background: var(--gold-light); }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      right: 60px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+    }
+    .scroll-indicator span {
+      writing-mode: vertical-rl;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollDown 2s ease-in-out infinite;
+    }
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* Floating stats */
+    .hero-stats {
+      position: absolute;
+      bottom: 100px;
+      right: 60px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      opacity: 0;
+    }
+    .hero-stat {
+      background: rgba(14,14,26,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      padding: 16px 24px;
+      text-align: right;
+    }
+    .hero-stat-val {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-stat-lbl {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── INTRO ── */
+    .intro-section {
+      padding: 160px 0 120px;
+    }
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .intro-text .display-title { font-size: clamp(36px, 4vw, 56px); margin-bottom: 24px; }
+    .intro-text p { font-size: 15px; color: var(--text-muted); line-height: 1.9; margin-bottom: 16px; }
+    .intro-img-wrap {
+      position: relative;
+      height: 580px;
+    }
+    .intro-img {
+      width: 80%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      position: absolute;
+      right: 0;
+    }
+    .intro-img-card {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px 28px;
+      width: 200px;
+      z-index: 2;
+    }
+    .intro-img-card .val {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .intro-img-card .lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      letter-spacing: 1px;
+    }
+    .intro-img-badge {
+      position: absolute;
+      top: 40px;
+      left: 20px;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 10px 20px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 2px;
+      z-index: 2;
+    }
+
+    /* ── FEATURED PROPERTIES ── */
+    .props-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+    }
+    .props-header .display-title { font-size: clamp(36px, 4vw, 52px); }
+    .props-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .props-grid .prop-card:first-child {
+      grid-column: span 2;
+    }
+    .props-grid .prop-card:first-child .prop-card-img { height: 360px; }
+
+    /* ── SERVICES ── */
+    .services-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .service-item {
+      padding: 48px 36px;
+      border: 1px solid var(--border-light);
+      transition: background 0.4s, border-color 0.4s;
+      cursor: default;
+    }
+    .service-item:hover {
+      background: rgba(201,169,110,0.05);
+      border-color: var(--border);
+    }
+    .service-icon {
+      width: 52px; height: 52px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      font-size: 20px;
+      color: var(--gold);
+      transition: var(--transition);
+    }
+    .service-item:hover .service-icon {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+    .service-item h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .service-item p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ── STATS BAND ── */
+    .stats-band {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .stat-box {
+      text-align: center;
+      padding: 40px 20px;
+      border-left: 1px solid var(--border-light);
+    }
+    .stat-box:last-child { border-right: 1px solid var(--border-light); }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 5vw, 72px);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+    .stat-lbl {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 10px;
+      display: block;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-section { overflow: hidden; }
+    .testimonials-header { margin-bottom: 60px; }
+    .testimonials-track {
+      display: flex;
+      gap: 28px;
+      transition: transform 0.6s var(--ease-out);
+    }
+    .testimonial-card {
+      flex: 0 0 calc(33.33% - 19px);
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      padding: 40px;
+    }
+    .testimonial-stars {
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .testimonial-text {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .testimonial-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--bg3);
+    }
+    .testimonial-name { font-size: 15px; font-weight: 500; }
+    .testimonial-role { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .testimonials-nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .testimonial-btn {
+      width: 48px; height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 16px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .testimonial-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .cta-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(7,7,15,0.82);
+    }
+    .cta-banner-content {
+      position: relative;
+      z-index: 2;
+      padding: 120px 0;
+      text-align: center;
+    }
+    .cta-banner-content .display-title {
+      font-size: clamp(40px, 5vw, 70px);
+      margin-bottom: 20px;
+    }
+    .cta-banner-content p {
+      font-size: 16px;
+      color: var(--text-sub);
+      max-width: 500px;
+      margin: 0 auto 48px;
+    }
+    .cta-banner-actions { display: flex; gap: 20px; justify-content: center; }
+
+    @media (max-width: 1024px) {
+      .hero-search-inner { grid-template-columns: 1fr 1fr; }
+      .props-grid { grid-template-columns: 1fr 1fr; }
+      .props-grid .prop-card:first-child { grid-column: span 1; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .testimonial-card { flex: 0 0 calc(50% - 14px); }
+    }
+    @media (max-width: 768px) {
+      .hero-stats, .scroll-indicator { display: none; }
+      .hero-search-inner { grid-template-columns: 1fr; }
+      .intro-grid { grid-template-columns: 1fr; }
+      .intro-img-wrap { height: 350px; }
+      .props-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .props-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .testimonial-card { flex: 0 0 85vw; }
+      .cta-banner-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+<nav class="nav" id="mainNav">
+  <a href="index.html" class="nav-logo">IMMO<span>.</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="proprietes.html" class="nav-link">Propriétés</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="a-propos.html" class="nav-link">À propos</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <a href="contact.html" class="nav-cta">Nous contacter</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Accueil</a>
+  <a href="proprietes.html" class="nav-link">Propriétés</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="a-propos.html" class="nav-link">À propos</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+</div>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg" data-parallax="0.25"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-inner" id="eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span>Agence Immobilière de Prestige</span>
+        </div>
+      </div>
+
+      <h1 class="hero-title" id="heroTitle">
+        <div class="line-wrap"><span class="line">L'immobilier</span></div>
+        <div class="line-wrap"><span class="line">réinventé pour</span></div>
+        <div class="line-wrap"><span class="line"><em>ceux qui osent.</em></span></div>
+      </h1>
+
+      <p class="hero-desc" id="heroDesc">
+        Des propriétés d'exception, une expertise reconnue, un accompagnement sur-mesure. IMMO vous guide vers le bien immobilier de vos rêves.
+      </p>
+
+      <div class="hero-actions" id="heroActions">
+        <a href="proprietes.html" class="btn-primary">
+          Explorer les biens <i class="fa fa-arrow-right"></i>
+        </a>
+        <a href="contact.html" class="btn-outline">
+          Estimation gratuite
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating stats -->
+  <div class="hero-stats" id="heroStats">
+    <div class="hero-stat">
+      <div class="hero-stat-val">+850</div>
+      <div class="hero-stat-lbl">Biens vendus</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">18 ans</div>
+      <div class="hero-stat-lbl">D'expérience</div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator" id="scrollIndicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+
+  <!-- Search bar -->
+  <div class="hero-search container">
+    <div class="hero-search-inner reveal-scale">
+      <div class="search-field">
+        <label>Type de bien</label>
+        <select>
+          <option>Tous les biens</option>
+          <option>Villa</option>
+          <option>Appartement</option>
+          <option>Penthouse</option>
+          <option>Maison</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Localisation</label>
+        <input type="text" placeholder="Ville, quartier...">
+      </div>
+      <div class="search-field">
+        <label>Budget maximum</label>
+        <select>
+          <option>Tous budgets</option>
+          <option>Jusqu'à 50M FCFA</option>
+          <option>Jusqu'à 100M FCFA</option>
+          <option>Jusqu'à 250M FCFA</option>
+          <option>250M+ FCFA</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="window.location='proprietes.html'">
+        <i class="fa fa-search"></i> Rechercher
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INTRO ══════════════════════════════════════════════════════════════ -->
+<section class="intro-section">
+  <div class="container">
+    <div class="intro-grid">
+      <div class="intro-text">
+        <span class="tag reveal">Notre approche</span>
+        <h2 class="display-title reveal">
+          Plus qu'une agence,<br>
+          <em style="font-style:italic; color:var(--gold);">un partenaire</em><br>
+          de confiance.
+        </h2>
+        <div class="divider reveal"></div>
+        <p class="reveal">Depuis 18 ans, IMMO accompagne ses clients dans leurs projets immobiliers les plus ambitieux. Notre équipe d'experts sélectionne pour vous des biens d'exception avec un seul objectif : votre satisfaction totale.</p>
+        <p class="reveal">Chaque bien est rigoureusement évalué, chaque transaction est suivie avec rigueur et transparence, chaque client bénéficie d'un accompagnement personnalisé de A à Z.</p>
+        <a href="a-propos.html" class="btn-outline reveal" style="margin-top:32px;">En savoir plus</a>
+      </div>
+      <div class="intro-img-wrap reveal-right">
+        <div class="intro-img-badge">Depuis 2006</div>
+        <img
+          class="intro-img"
+          src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=900&q=85"
+          alt="Villa de luxe IMMO"
+        >
+        <div class="intro-img-card">
+          <div class="val"><span class="counter" data-target="850" data-suffix="+">0+</span></div>
+          <div class="lbl">Biens vendus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURED PROPERTIES ══════════════════════════════════════════════ -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="props-header">
+      <div>
+        <span class="tag reveal">Sélection du moment</span>
+        <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);">Propriétés en vedette</h2>
+      </div>
+      <a href="proprietes.html" class="btn-outline reveal">Voir tout <i class="fa fa-arrow-right"></i></a>
+    </div>
+
+    <div class="props-grid stagger-children">
+      <!-- Card 1 — Large -->
+      <div class="prop-card">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1000&q=85" alt="Villa Prestige">
+        <span class="prop-card-badge">Exclusivité</span>
+        <div class="prop-card-body">
+          <div class="prop-card-price">850 000 000 FCFA</div>
+          <div class="prop-card-title">Villa Prestige avec Piscine Infinity</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Cocody, Abidjan</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 6 chambres</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 5 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 680 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="prop-card">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=85" alt="Penthouse">
+        <span class="prop-card-badge" style="background:var(--bg3);color:var(--gold);border:1px solid var(--border);">Nouveau</span>
+        <div class="prop-card-body">
+          <div class="prop-card-price">420 000 000 FCFA</div>
+          <div class="prop-card-title">Penthouse Vue Mer Panoramique</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Marcory, Zone 4</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 4 chambres</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 3 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 320 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="prop-card">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=700&q=85" alt="Appartement">
+        <div class="prop-card-body">
+          <div class="prop-card-price">185 000 000 FCFA</div>
+          <div class="prop-card-title">Appartement Duplex Moderne</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Plateau, Abidjan</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 3 chambres</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 2 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 175 m²</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="prop-card">
+        <img class="prop-card-img" src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=700&q=85" alt="Maison contemporaine">
+        <div class="prop-card-body">
+          <div class="prop-card-price">290 000 000 FCFA</div>
+          <div class="prop-card-title">Maison Contemporaine avec Jardin</div>
+          <div class="prop-card-loc"><i class="fa fa-map-marker-alt"></i> Riviera 3, Abidjan</div>
+          <div class="prop-card-specs">
+            <div class="spec-item"><i class="fa fa-bed"></i> 5 chambres</div>
+            <div class="spec-item"><i class="fa fa-bath"></i> 4 SDB</div>
+            <div class="spec-item"><i class="fa fa-ruler-combined"></i> 420 m²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICES ══════════════════════════════════════════════════════════ -->
+<section class="section services-section">
+  <div class="container">
+    <span class="tag reveal">Ce que nous faisons</span>
+    <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px); max-width:600px;">Des services pensés pour votre réussite.</h2>
+
+    <div class="services-grid">
+      <div class="service-item reveal">
+        <div class="service-icon"><i class="fa fa-search"></i></div>
+        <h3>Recherche de bien</h3>
+        <p>Nous identifions les propriétés correspondant exactement à vos critères, même les plus exigeants.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-icon"><i class="fa fa-handshake"></i></div>
+        <h3>Transaction clé en main</h3>
+        <p>De la négociation à la signature notariale, nous gérons chaque étape avec expertise et rigueur.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-icon"><i class="fa fa-chart-line"></i></div>
+        <h3>Estimation immobilière</h3>
+        <p>Une évaluation précise de votre bien, basée sur les données du marché et notre expertise locale.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-icon"><i class="fa fa-home"></i></div>
+        <h3>Gestion locative</h3>
+        <p>Confiez-nous la gestion de vos biens locatifs : locataires, loyers, entretien — on gère tout.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS ══════════════════════════════════════════════════════════════ -->
+<section class="stats-band">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-num counter" data-target="850" data-suffix="+">0+</span>
+        <span class="stat-lbl">Biens vendus</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num counter" data-target="1200" data-suffix="+">0+</span>
+        <span class="stat-lbl">Clients satisfaits</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num counter" data-target="18" data-suffix=" ans">0 ans</span>
+        <span class="stat-lbl">D'expérience</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num counter" data-target="98" data-suffix="%">0%</span>
+        <span class="stat-lbl">Taux de satisfaction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══════════════════════════════════════════════════════ -->
+<section class="section testimonials-section">
+  <div class="container">
+    <div class="testimonials-header">
+      <span class="tag reveal">Ils nous font confiance</span>
+      <h2 class="display-title reveal" style="font-size:clamp(36px,4vw,52px);">Ce que disent nos clients</h2>
+    </div>
+
+    <div style="overflow:hidden;">
+      <div class="testimonials-track" id="testimonialsTrack">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"IMMO a trouvé ma villa en moins de 3 semaines. Un niveau de service que je n'aurais jamais espéré. L'équipe est à l'écoute, professionnelle et réactive."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:18px;color:var(--gold);">MK</div>
+            <div>
+              <div class="testimonial-name">Marie-Claire Konan</div>
+              <div class="testimonial-role">Directrice, Abidjan</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Un accompagnement exceptionnel du début à la fin. L'estimation de mon bien était parfaitement juste. Je recommande IMMO sans hésitation à mon entourage."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:18px;color:var(--gold);">AD</div>
+            <div>
+              <div class="testimonial-name">Aimé Digbeu</div>
+              <div class="testimonial-role">Chef d'entreprise</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"La confiance s'est installée dès le premier rendez-vous. Mon investissement locatif est parfaitement géré. Merci à toute l'équipe IMMO pour ce sérieux sans faille."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:18px;color:var(--gold);">SR</div>
+            <div>
+              <div class="testimonial-name">Sophie Roux</div>
+              <div class="testimonial-role">Investisseuse immobilière</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonials-nav">
+      <button class="testimonial-btn" id="prevBtn"><i class="fa fa-arrow-left"></i></button>
+      <button class="testimonial-btn" id="nextBtn"><i class="fa fa-arrow-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BANNER ════════════════════════════════════════════════════════ -->
+<section class="cta-banner">
+  <div class="cta-banner-bg" data-parallax="0.2"></div>
+  <div class="cta-banner-overlay"></div>
+  <div class="container">
+    <div class="cta-banner-content">
+      <span class="tag reveal" style="justify-content:center;margin-bottom:20px;">Prêt à commencer ?</span>
+      <h2 class="display-title reveal">Votre projet immobilier<br>commence ici.</h2>
+      <p class="reveal">Parlons de vos ambitions. Nos conseillers vous répondent sous 24h.</p>
+      <div class="cta-banner-actions reveal">
+        <a href="contact.html" class="btn-primary">Prendre rendez-vous <i class="fa fa-arrow-right"></i></a>
+        <a href="proprietes.html" class="btn-outline">Voir les biens</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">IMMO<span style="color:var(--text);">.</span></div>
+      <p>Votre agence immobilière de prestige. Des propriétés d'exception pour une clientèle exigeante depuis 2006.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="proprietes.html">Propriétés</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Achat immobilier</a></li>
+        <li><a href="services.html">Vente de bien</a></li>
+        <li><a href="services.html">Gestion locative</a></li>
+        <li><a href="services.html">Estimation gratuite</a></li>
+        <li><a href="services.html">Investissement</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+2250700000000"><i class="fa fa-phone" style="color:var(--gold);margin-right:8px;"></i>+225 07 00 00 00 00</a></li>
+        <li><a href="mailto:contact@immo.ci"><i class="fa fa-envelope" style="color:var(--gold);margin-right:8px;"></i>contact@immo.ci</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt" style="color:var(--gold);margin-right:8px;"></i>Cocody, Abidjan, CI</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2006 – 2026 IMMO — Agence Immobilière de Prestige. Tous droits réservés.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="main.js"></script>
+<script>
+  // Hero entrance animation
+  const heroTl = gsap.timeline({ delay: 0.2 });
+  heroTl
+    .to('#eyebrow', { opacity: 1, x: 0, duration: 1, ease: 'power4.out' })
+    .to('.hero-title .line', { y: 0, opacity: 1, stagger: 0.15, duration: 1.1, ease: 'power4.out' }, '-=0.6')
+    .to('#heroDesc', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+    .to('#heroActions', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
+    .to('#heroStats', { opacity: 1, duration: 0.8, ease: 'power3.out' }, '-=0.3')
+    .to('#scrollIndicator', { opacity: 1, duration: 0.6 }, '-=0.2');
+
+  // Hero eyebrow initial state fix
+  gsap.set('#eyebrow', { x: -40, opacity: 0 });
+
+  // Testimonials slider
+  const track = document.getElementById('testimonialsTrack');
+  const cards = track.querySelectorAll('.testimonial-card');
+  let current = 0;
+  const getSlideWidth = () => cards[0].offsetWidth + 28;
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (current < cards.length - 1) {
+      current++;
+      gsap.to(track, { x: -current * getSlideWidth(), duration: 0.7, ease: 'power3.out' });
+    }
+  });
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (current > 0) {
+      current--;
+      gsap.to(track, { x: -current * getSlideWidth(), duration: 0.7, ease: 'power3.out' });
+    }
+  });
+</script>
+</body>
+</html>
