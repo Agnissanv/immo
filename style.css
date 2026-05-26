@@ -439,6 +439,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   /* ─── AJOUTS ET CORRECTIONS POUR LE HERO RESPONSIVE ─── */
   
   .hero {
+    align-items: flex-start !important; /* Aligne le contenu vers le haut */
     height: auto;           /* Supprime les 100vh stricts pour laisser le contenu respirer */
     min-height: 100vh;      /* Assure que la section prend quand même tout l'écran au minimum */
     padding-top: calc(var(--nav-h) + 40px); /* Laisse de l'espace pour ne pas cacher le texte sous le menu fixe */
