@@ -424,6 +424,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .footer { padding: 60px 32px 32px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
 }
+
+
 @media (max-width: 768px) {
   :root { --nav-h: 70px; }
   .nav-links, .nav-cta { display: none; }
@@ -433,4 +435,42 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .footer { padding: 60px 24px 24px; }
   .footer-grid { grid-template-columns: 1fr; gap: 40px; }
   .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+
+  /* ─── AJOUTS ET CORRECTIONS POUR LE HERO RESPONSIVE ─── */
+  
+  .hero {
+    height: auto;           /* Supprime les 100vh stricts pour laisser le contenu respirer */
+    min-height: 100vh;      /* Assure que la section prend quand même tout l'écran au minimum */
+    padding-top: calc(var(--nav-h) + 40px); /* Laisse de l'espace pour ne pas cacher le texte sous le menu fixe */
+    padding-bottom: 120px;  /* Crée de la place en bas pour éviter l'écrasement */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-content {
+    margin-bottom: 40px;    /* Sépare proprement les textes de la barre de recherche */
+  }
+
+  .hero-actions {
+    flex-direction: column; /* Aligne les deux boutons l'un sous l'autre pour les petits écrans */
+    gap: 12px;
+  }
+  
+  .hero-actions .btn-primary, 
+  .hero-actions .btn-outline {
+    width: 100%;            /* Les boutons prennent toute la largeur disponible pour cliquer plus facilement */
+    justify-content: center;
+  }
+
+  .hero-search {
+    position: relative;     /* Crucial : annule le comportement absolu sur mobile */
+    bottom: 0;              /* Réinitialise la position */
+    margin-top: 20px;
+  }
+
+  .hero-search-inner {
+    padding: 20px;          /* Réduit les espacements internes trop grands sur smartphone */
+    gap: 16px;
+  }
 }
